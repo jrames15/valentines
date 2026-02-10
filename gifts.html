@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gifts & Flowers 🎁</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <div class="topbar">
+      <a class="back" href="index.html">← Back Home</a>
+      <h1>Gift Ideas & Flower Drawing <span class="sticker">🎁🧸🌹</span></h1>
+    </div>
+
+    <section class="panel">
+      <div class="gifts-grid">
+        <article class="gift"><h2>🧸 Cute Toy Box</h2><p>Teddy bear, tiny bunny, and mini love note jar.</p></article>
+        <article class="gift"><h2>🍫 Sweet Treat Pack</h2><p>Favorite chocolates, candy hearts, and strawberry cookies.</p></article>
+        <article class="gift"><h2>🎨 Hand-drawn Memory</h2><p>A drawing of us + one flower for every month together.</p></article>
+      </div>
+
+      <div class="flower-box">
+        <p>Tap the button to draw flowers for her 🌼</p>
+        <button class="draw-btn" id="drawFlowers">Draw Flowers</button>
+        <div class="flower" id="flowerCanvas" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const drawBtn = document.getElementById('drawFlowers');
+    const flowerCanvas = document.getElementById('flowerCanvas');
+    const flowers = ['🌷', '🌹', '🌸', '🌼', '🪻', '💐'];
+
+    drawBtn.addEventListener('click', () => {
+      const bouquet = Array.from({ length: 12 }, () => flowers[Math.floor(Math.random() * flowers.length)]).join(' ');
+      flowerCanvas.textContent = bouquet;
+      flowerCanvas.classList.remove('show');
+      requestAnimationFrame(() => flowerCanvas.classList.add('show'));
+    });
+  </script>
+</body>
+</html>
