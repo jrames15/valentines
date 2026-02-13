@@ -1,33 +1,51 @@
-const introCard = document.getElementById('introCard');
-const openEnvelope = document.getElementById('openEnvelope');
-const choices = document.getElementById('choices');
-const heartsContainer = document.querySelector('.hearts');
+const card = document.getElementById('valentineCard');
+const lid = document.getElementById('cardLid');
+const categories = document.getElementById('categorySection');
 
-let opened = false;
-
-openEnvelope?.addEventListener('click', () => {
-  if (opened) return;
-  opened = true;
-  introCard.classList.add('open');
-
-  setTimeout(() => {
-    choices.classList.add('visible');
-  }, 700);
-});
-
-function spawnHeart() {
-  const heart = document.createElement('span');
-  heart.className = 'heart';
-  heart.style.left = `${Math.random() * 100}%`;
-  heart.style.animationDuration = `${5 + Math.random() * 6}s`;
-  heart.style.opacity = `${0.2 + Math.random() * 0.4}`;
-  heart.style.transform = `scale(${0.6 + Math.random() * 0.8}) rotate(45deg)`;
-  heartsContainer?.appendChild(heart);
-
-  setTimeout(() => heart.remove(), 12000);
+if (card && lid && categories) {
+    lid.addEventListener('click', () => {
+        card.classList.add('open');
+        setTimeout(() => categories.classList.add('show'), 500);
+    }, { once: true });
 }
 
-setInterval(spawnHeart, 650);
-for (let i = 0; i < 8; i++) {
-  setTimeout(spawnHeart, i * 240);
+const flowerCanvas = document.getElementById('flowerCanvas');
+if (flowerCanvas) {
+    const ctx = flowerCanvas.getContext('2d');
+    let drawing = false;
+
+    const fixPosition = (event) => {
+        const rect = flowerCanvas.getBoundingClientRect();
+        const source = event.touches ? event.touches[0] : event;
+        return {
+            x: source.clientX - rect.left,
+            y: source.clientY - rect.top
+        };
+    };
+
+    const start = (event) => {
+        drawing = true;
+        const { x, y } = fixPosition(event);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    };
+
+    const draw = (event) => {
+        if (!drawing) return;
+        event.preventDefault();
+        const { x, y } = fixPosition(event);
+        ctx.strokeStyle = '#c62672';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    };
+
+    const stop = () => {
+        drawing = false;
+    };
+
+    ['mousedown', 'touchstart'].forEach((type) => flowerCanvas.addEventListener(type, start));
+    ['mousemove', 'touchmove'].forEach((type) => flowerCanvas.addEventListener(type, draw, { passive: false }));
+    ['mouseup', 'mouseleave', 'touchend'].forEach((type) => flowerCanvas.addEventListener(type, stop));
 }
