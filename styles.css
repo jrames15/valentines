@@ -1,0 +1,223 @@
+:root {
+  --bg1: #fff0f6;
+  --bg2: #ffe3ec;
+  --pink: #ff5e99;
+  --pink-dark: #d9487f;
+  --purple: #8f4eff;
+  --card: #ffffff;
+  --text: #4b2040;
+  --shadow: 0 12px 30px rgba(244, 93, 146, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Fredoka", sans-serif;
+  color: var(--text);
+  background: linear-gradient(140deg, var(--bg1), var(--bg2));
+  overflow-x: hidden;
+}
+
+.page {
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  font-family: "Pacifico", cursive;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--pink-dark);
+  margin: 0 0 0.3rem;
+}
+
+.subtitle {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.intro-card {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 30px;
+  box-shadow: var(--shadow);
+  padding: clamp(1.2rem, 4vw, 2rem);
+}
+
+.envelope {
+  margin: 1rem auto;
+  width: min(300px, 80vw);
+  aspect-ratio: 1.4 / 1;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  display: block;
+}
+
+.envelope::before {
+  content: "";
+  position: absolute;
+  inset: 20% 0 0;
+  background: #ff8db7;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+.envelope-top {
+  position: absolute;
+  inset: 20% 0 auto;
+  width: 100%;
+  height: 45%;
+  background: #ff6ba6;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top;
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 4;
+}
+
+.envelope-letter {
+  position: absolute;
+  left: 50%;
+  bottom: 22%;
+  width: 78%;
+  height: 56%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.13);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s;
+  z-index: 3;
+}
+
+.letter-text {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--pink-dark);
+}
+
+.intro-card.open .envelope-top {
+  transform: rotateX(175deg);
+}
+
+.intro-card.open .envelope-letter {
+  transform: translateX(-50%) translateY(-78px);
+}
+
+.greeting {
+  max-width: 44ch;
+  margin: 1.1rem auto 0;
+  font-size: 1.05rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.intro-card.open .greeting {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.choices {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.choices.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.choice {
+  background: var(--card);
+  border-radius: 24px;
+  text-decoration: none;
+  color: inherit;
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  border: 2px solid #ffd3e4;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.choice:hover,
+.choice:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 34px rgba(214, 70, 128, 0.35);
+}
+
+.emoji {
+  font-size: 1.8rem;
+}
+
+.choice h2 {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  color: var(--pink-dark);
+}
+
+.choice p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  bottom: -30px;
+  width: 16px;
+  height: 16px;
+  background: #ff6ba6;
+  transform: rotate(45deg);
+  opacity: 0.35;
+  animation: floatUp linear forwards;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.heart::before { left: -8px; }
+.heart::after { top: -8px; }
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-115vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .choices {
+    grid-template-columns: 1fr;
+  }
+}
